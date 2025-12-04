@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# ----------------------------------------------------
-# TEXT CLEANING + LENGTH CONTROL
-# ----------------------------------------------------
+# text cleaning and summarization functions 
 def clean_text(text, max_chars=12000):
     """
     Ensures text is not too long for the model.
@@ -35,10 +33,7 @@ def merge_reviews(group):
     merged = " ".join(set(group.dropna()))
     return clean_text(merged)
 
-
-# ----------------------------------------------------
-# MAIN SUMMARIZER (FINAL VERSION)
-# ----------------------------------------------------
+# main summarization and prompt
 def summarize_apartment(text):
     """
     Summarize apartment reviews into clear bullet points across categories.
@@ -80,9 +75,7 @@ TEXT:
 
 
 
-# ----------------------------------------------------
-# SENTIMENT CLASSIFIER (FAST + ROBUST)
-# ----------------------------------------------------
+# sentiment classification, raning from -1 to 1
 def classify_sentiment(summary):
     """
     Returns (label, score).
@@ -116,9 +109,7 @@ SUMMARY:
     return "neutral", 0
 
 
-# ----------------------------------------------------
-# PROCESS ALL APARTMENTS
-# ----------------------------------------------------
+# process all apartments
 def process_all_reviews(input_csv="./data/all_reviews.csv",
                         output_csv="./data/final_summaries.csv"):
 
@@ -165,8 +156,5 @@ def process_all_reviews(input_csv="./data/all_reviews.csv",
     print(f"\n💾 Saved final summaries → {output_csv}")
 
 
-# ----------------------------------------------------
-# RUN
-# ----------------------------------------------------
 if __name__ == "__main__":
     process_all_reviews()
